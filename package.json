@@ -1,4 +1,9 @@
 {
+  "name":"twax",
+  "repository": "quavmo/twax",
+  "version":"0.0.1",
+  "description":"a module for taxonomizing twitter users",
+  "license":"MIT",
   "dependencies": {
     "bluebird": "^3.4.6",
     "ramda": "^0.22.1",
