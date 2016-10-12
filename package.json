@@ -34,6 +34,6 @@
   "scripts": {
     "test": "mocha",
     "test:watch": "mocha --watch",
-    "preversion": "node_modules/babel-cli/bin/babel.js src --out-dir lib"
+    "preversion": "babel src --out-dir lib"
   }
 }

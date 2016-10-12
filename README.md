@@ -60,6 +60,9 @@ npm test
 - [sinon](https://github.com/cjohansen/Sinon.JS): JavaScript test spies, stubs and mocks.
 - [sinon-as-promised](https://github.com/bendrucker/sinon-as-promised): Sugar methods for using sinon.js stubs with promises
 
+## Todo
+
+- [ ] Don't expect process.env.VARIABLES on load.
 
 ## License
 
