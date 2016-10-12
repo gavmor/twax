@@ -1,4 +1,4 @@
-import { taxonomize } from '..';
+import Twax from '..';
 import { stub } from 'sinon';
 import alchemy from '../src/alchemy';
 import corpus from '../src/corpus';
@@ -14,7 +14,8 @@ describe('taxonomize', function() {
   
   it('classifies a twitter handle by the taxonomies of its post', function () {
     const taxonomyLabels = [ "foo", "bar" ];
-    const taxOfWhom = taxonomize("chowchowkelly");
+    const taxOfWhom = Twax.taxonomize("quavmo");
+    Twax.taxonomize('quavmo').then(console.log)
     return expect(taxOfWhom).to.eventually.eql(taxonomyLabels);
   });
 });

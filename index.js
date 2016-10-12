@@ -8,4 +8,5 @@ const taxonomize = handle => corpus.fetch(handle)
   .then(text => alchemy.fetch({text}))
   .then(pluckLabels);
 
-export { taxonomize };
+const Twax = { taxonomize, alchemy, corpus };
+export default Twax;
