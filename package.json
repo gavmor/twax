@@ -1,7 +1,7 @@
 {
   "name": "twax",
   "repository": "quavmo/twax",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "a module for taxonomizing twitter users",
   "license": "MIT",
   "main": "lib/index.js",
