@@ -24,6 +24,7 @@
     ]
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "test:watch": "mocha --watch"
   }
 }

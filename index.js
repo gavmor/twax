@@ -1,11 +1,11 @@
 import { pluck } from 'ramda';
-import { fetch as fetchAlchemy } from './src/alchemy';
-import { fetch as fetchCorpus} from './src/corpus';
+import alchemy from './src/alchemy';
+import corpus from './src/corpus';
 
 const pluckLabels = response => pluck('label')(response.taxonomy);
 
-const taxonomize = handle => fetchCorpus(handle)
-  .then(text => fetchAlchemy({text}))
+const taxonomize = handle => corpus.fetch(handle)
+  .then(text => alchemy.fetch({text}))
   .then(pluckLabels);
 
 export { taxonomize };
