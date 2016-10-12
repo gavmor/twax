@@ -1,6 +1,6 @@
 import { pluck } from 'ramda';
-import alchemy from './src/alchemy';
-import corpus from './src/corpus';
+import alchemy from './alchemy';
+import corpus from './corpus';
 
 const pluckLabels = response => pluck('label')(response.taxonomy);
 

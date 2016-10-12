@@ -1,9 +1,10 @@
 {
-  "name":"twax",
+  "name": "twax",
   "repository": "quavmo/twax",
-  "version":"0.0.1",
-  "description":"a module for taxonomizing twitter users",
-  "license":"MIT",
+  "version": "0.0.1",
+  "description": "a module for taxonomizing twitter users",
+  "license": "MIT",
+  "main": "lib/index.js",
   "dependencies": {
     "bluebird": "^3.4.6",
     "ramda": "^0.22.1",
@@ -11,6 +12,9 @@
     "watson-developer-cloud": "^2.4.6"
   },
   "devDependencies": {
+    "babel-cli": "^6.16.0",
+    "babel-core": "^6.17.0",
+    "babel-preset-es2015": "^6.16.0",
     "babel-preset-stage-0": "^6.16.0",
     "babel-register": "^6.16.3",
     "chai": "^3.5.0",
@@ -29,6 +33,7 @@
   },
   "scripts": {
     "test": "mocha",
-    "test:watch": "mocha --watch"
+    "test:watch": "mocha --watch",
+    "preversion": "node_modules/babel-cli/bin/babel.js src --out-dir lib"
   }
 }
