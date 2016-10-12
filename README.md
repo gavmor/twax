@@ -3,10 +3,14 @@
 A module for classifying twitter users by their last 100 tweets.
 
 ## Use
+You'll have to set the follow environment variables on `process.env`:
+
+`ALCHEMY_API_KEY, TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET`
 
 ```JavaScript
-import Twax from 'twax'
-Twax.taxonomize('quavmo').then(console.log)
+import Twax from 'twax';
+twax = new Twax();
+twax.taxonomize('quavmo').then(console.log)
 ```
 
 Should return:
