@@ -4,7 +4,7 @@ import mochaAsPromised from "mocha-as-promised";
 import sinonAsPromised from "sinon-as-promised";
 import dotenv from 'dotenv';
 
-// dotenv.config()
+dotenv.config()
 mochaAsPromised()
 chai.use(chaiAsPromised);
 
