@@ -10,7 +10,7 @@ const initTwit = () => new Twit({
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
 });
 
-export function fetch (opts) {
+export function corpus (opts) {
   const t = initTwit();
   const twitterOpts = { ...opts, count: 100, since_id: 1 };
   const curriedGet = curry(t.get)('statuses/user_timeline', twitterOpts)
@@ -25,4 +25,4 @@ export function milieu (opts) {
   
 }
 
-export default { fetch, milieu }
+export default { corpus, milieu }

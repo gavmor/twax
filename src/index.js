@@ -1,7 +1,7 @@
 import { flatten, map, pluck, curry, merge, reduce, toPairs } from 'ramda';
 import { all } from 'bluebird';
 import alchemy from './alchemy';
-import corpus from './corpus';
+import twitter from './twitter';
 
 const pluckLabels = response => pluck('label')(response.taxonomy);
 
@@ -12,13 +12,13 @@ export default class Twax {
   }
   
   taxonomize(opts) {
-    return corpus.fetch(opts)
+    return twitter.corpus(opts)
       .then(text => alchemy.fetch({text}))
       .then(pluckLabels);
   }
     
   taxonomizeFriends(opts) {
-    return corpus.milieu(opts)
+    return twitter.milieu(opts)
         .then(users => all(map(corpusByScreenName, users)))
         .then(corpuses => all(map(analyzeCorpuses, corpuses)))
         .then(flatten)
@@ -46,8 +46,8 @@ const analyzeCorpuses = (corpus) => {
 }
 
 const corpusByScreenName = handle => {
-  const format = corpus => ({[handle]: corpus})
-  return corpus.fetch({screen_name: handle}).then(format)
+  const format = doc => ({[handle]: doc})
+  return twitter.corpus({screen_name: handle}).then(format)
 }
   
   

@@ -1,7 +1,7 @@
 import Twax, { inverseMap } from '../src';
 import { stub } from 'sinon';
 import alchemy from '../src/alchemy';
-import corpus from '../src/corpus';
+import twitter from '../src/twitter';
 
 
 describe('new Twax()', function functionName() {
@@ -19,16 +19,16 @@ describe('new Twax()', function functionName() {
       'luchisimog', 'mrmicrowaveoven'
     ]
     
-    stub(corpus, 'fetch').resolves(mockCorpus);
-    stub(corpus, 'milieu').resolves(mockMilieu);
+    stub(twitter, 'corpus').resolves(mockCorpus);
+    stub(twitter, 'milieu').resolves(mockMilieu);
     stub(alchemy, 'fetch').resolves(mockTaxonomy);
     
     twax = new Twax();
   });
   
   afterEach(function () {
-    corpus.fetch.restore();
-    corpus.milieu.restore();
+    twitter.corpus.restore();
+    twitter.milieu.restore();
     alchemy.fetch.restore();
   });
   
