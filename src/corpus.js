@@ -15,8 +15,14 @@ export function fetch (opts) {
   const twitterOpts = { ...opts, count: 100, since_id: 1 };
   const curriedGet = curry(t.get)('statuses/user_timeline', twitterOpts)
   const fetchTweets = Blue.promisify(curriedGet, {context: t});
+  const spaceJoin = join(' ');
+  const amassText = (tweets) => spaceJoin(pluck('text')(tweets));
   
-  return fetchTweets().then((tweets) => join(' ')(pluck('text')(tweets)));  
+  return fetchTweets().then(amassText);
 }
 
-export default { fetch }
+export function milieu (opts) {
+  
+}
+
+export default { fetch, milieu }
