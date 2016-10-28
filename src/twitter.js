@@ -1,5 +1,5 @@
 import { writeFileSync } from 'fs';
-import { curry, pluck, join, map } from 'ramda';
+import { prop, curry, pluck, join, map } from 'ramda';
 import Promise, { promisify, all } from 'bluebird';
 import Twit from 'twit';
 
@@ -22,9 +22,10 @@ export function corpus (opts) {
 }
 
 export function milieu (opts) {
-  return new Promise(resolve => resolve(
-    ['quavmo', 'luchisimog', 'mrmicrowaveoven']
-  ));
+  const t = initTwit();
+  const curriedGet = curry(t.get)('friends/list', {...opts, count: 200, statuses: false})
+  const fetchFriends = promisify(curriedGet, {context: t});
+  return fetchFriends().then(prop('users')).then(pluck('screen_name'));
 }
 
 export const corpuses = users => all(map(corpusByScreenName, users))

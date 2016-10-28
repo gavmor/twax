@@ -12,15 +12,16 @@ export function taxonomy(corpus) {
   return taxonomyAsync(corpus).then(pluckLabels);
 }
 
-export const analyzeAll = corpuses => {
+export const taxonomies = corpuses => {
   return all(map(analyzeCorpuses, corpuses))
 }
 
 const analyzeCorpuses = corpus => {  
   const [ handle, text ] = flatten(toPairs(corpus));
-  const taxonomyByHandle = taxonomy => ({ [handle]: taxonomy })
+  
+  const taxonomyByHandle = taxonomy => ({ [handle]: taxonomy.split("/")[1] })
   
   return taxonomy({text}).then(map(taxonomyByHandle))
 };
 
-export default { taxonomy, analyzeAll };
+export default { taxonomy, taxonomies };

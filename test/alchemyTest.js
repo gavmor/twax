@@ -1,6 +1,6 @@
 import { stub } from 'sinon';
 import { AlchemyLanguageV1 as Alchemy } from 'watson-developer-cloud';
-import { analyzeAll, taxonomy } from '../src/alchemy';
+import { taxonomies, taxonomy } from '../src/alchemy';
 
 describe('alchemy', function () {
   beforeEach(function () {
@@ -31,25 +31,25 @@ describe('alchemy', function () {
       ]);
     })
   })
-  describe('analyzeAll', function () {
+  describe('taxonomies', function () {
     it('works', function () {
       const corpuses = [
         { quavmo: "If God is dead, then what is left?" },
         { errantspark: "Listening to them makes me think of biking REALLY FAST and running lots of RED LIGHTS in the RAIN in SAN FRANCISCO." }
       ];
       
-      const analysis = analyzeAll(corpuses);
+      const analysis = taxonomies(corpuses);
       
       return expect(analysis).to.eventually.deep.equal([
         [
-          { "quavmo": '/sports/running and jogging' },
-          { "quavmo": '/art and entertainment/music/singing' },
-          { "quavmo": '/sports/walking' }
+          { "quavmo": 'sports' },
+          { "quavmo": 'art and entertainment' },
+          { "quavmo": 'sports' }
         ],
         [
-          { "errantspark": "/sports/running and jogging" },
-          { "errantspark": "/art and entertainment/music/singing" },
-          { "errantspark": "/sports/walking" }
+          { "errantspark": "sports" },
+          { "errantspark": "art and entertainment" },
+          { "errantspark": "sports" }
         ]
     ]);
     })

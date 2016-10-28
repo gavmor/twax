@@ -4,7 +4,7 @@ import { stub } from 'sinon';
 // import twitter from '../src/twitter';
 
 describe('new Twax()', function functionName() {
-  let twax, corpus, corpuses, analyzeAll, milieu, taxonomy;
+  let twax, corpus, corpuses, taxonomies, milieu, taxonomy;
   
   beforeEach(function () {
     const mockMilieu = [ 'luchisimog', 'mrmicrowaveoven' ];
@@ -14,7 +14,8 @@ describe('new Twax()', function functionName() {
     corpuses = stub().resolves([{quavmo: mockCorpus}]);
     milieu = stub().resolves(mockMilieu);
     taxonomy = stub().resolves([ "dragons", "unicorns" ]);
-    analyzeAll = stub().resolves([
+    taxonomies = stub().resolves([
+      { luchisimog: 'dragons' },
       { luchisimog: 'dragons' },
       { mrmicrowaveoven: 'dragons' },
       { luchisimog: 'unicorns' },
@@ -22,7 +23,7 @@ describe('new Twax()', function functionName() {
     ]);
     
     const constructionParams = {
-      corpus, corpuses, analyzeAll, milieu, taxonomy
+      corpus, corpuses, taxonomies, milieu, taxonomy
     };
     
     twax = new Twax(constructionParams);

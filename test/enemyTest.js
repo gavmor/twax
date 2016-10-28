@@ -1,24 +1,48 @@
+import {
+  writeFileSync
+} from 'fs';
 import Twax from '../src';
 
-xdescribe('live ammo', function () {
+xdescribe('connecting to the live APIs', function() {
   let twax;
-  
-  beforeEach(function () {
+
+  beforeEach(function() {
     twax = new Twax();
   });
-  
-  it('works', function () {
-    return expect(twax.taxonomizeFriends({
-      screen_name: 'quavmo'
-    })).to.eventually.deep.equal({
-      "/science/social science/linguistics/translation": [
-        "mrmicrowaveoven"
+
+  it('works', function() {
+    this.timeout(50000);
+    
+    const promisedTaxonomy = twax.taxonomizeFriends({ screen_name: 'quavmo' })
+      .then(obj => { 
+        writeFileSync('groupTaxes.json', JSON.stringify(obj)) 
+        return obj;
+      });
+      
+    return expect(promisedTaxonomy).to.eventually.deep.equal({
+      "art and entertainment": [
+        "alexandseed",
+        "andersoncooper",
+        "_JulieAndrews",
+        "kathygriffin",
       ],
-      "/technology and computing/internet technology/social network": [
-        "mrmicrowaveoven"
+      "law, govt and politics": [
+        "alexandseed"
       ],
-      "/travel/tourist destinations/national parks": [
-        "mrmicrowaveoven"
+      "pets": [
+        "alexandseed"
+      ],
+      "science": [
+        "andersoncooper"
+      ],
+      "society": [
+        "kathygriffin"
+      ],
+      "sports": [
+        "kathygriffin"
+      ],
+      "travel": [
+        "andersoncooper"
       ]
     })
   })

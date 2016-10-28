@@ -1,7 +1,8 @@
 import { milieu, corpus, corpuses } from './twitter';
-import { analyzeAll, taxonomy } from './alchemy';
+import { taxonomies, taxonomy } from './alchemy';
 import { 
-  flatten, map, pluck, curry, merge, reduce, toPairs 
+  isEmpty, propSatisfies, reject,
+  flatten, map, pluck, curry, merge, reduce, toPairs, uniq
 } from 'ramda';
 
 import { all } from 'bluebird';
@@ -11,7 +12,7 @@ export default class Twax {
     Object.assign(this, {
       milieu,
       corpuses,
-      analyzeAll,
+      taxonomies,
       corpus,
       taxonomy
     }, injections);
@@ -24,7 +25,7 @@ export default class Twax {
   taxonomizeFriends = opts => {
     return this.milieu(opts)
         .then(this.corpuses)
-        .then(this.analyzeAll)
+        .then(this.taxonomies)
         .then(flatten)
         .then(inverseMap);
   }
@@ -38,6 +39,6 @@ export const inverseMap = (pairs) => {
 const inverseMerge = (memo, pair) => {
   const [handle, tax] = flatten(toPairs(pair));
   return merge(memo, {
-    [tax]: [...(memo[tax] || []), handle]
+    [tax]: uniq([...(memo[tax] || []), handle])
   });
 }
