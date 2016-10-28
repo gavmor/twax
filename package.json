@@ -6,6 +6,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "dependencies": {
+    "babel-plugin-transform-class-properties": "^6.18.0",
     "bluebird": "^3.4.6",
     "ramda": "^0.22.1",
     "twit": "^2.2.5",
@@ -29,6 +30,9 @@
     "presets": [
       "stage-0",
       "es2015"
+    ],
+    "plugins": [
+      "transform-class-properties"
     ]
   },
   "scripts": {

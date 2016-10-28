@@ -1,29 +1,38 @@
-import { flatten, map, pluck, curry, merge, reduce, toPairs } from 'ramda';
-import { all } from 'bluebird';
-import alchemy from './alchemy';
-import twitter from './twitter';
+import { milieu, corpus, corpuses } from './twitter';
+import { analyzeAll, taxonomy } from './alchemy';
+import { 
+  flatten, map, pluck, curry, merge, reduce, toPairs 
+} from 'ramda';
 
-const pluckLabels = response => pluck('label')(response.taxonomy);
+import { all } from 'bluebird';
 
 export default class Twax { 
-  constructor(){
-    // curry(corpus.fetch, {});
-    // curry(alchemy.fetch, {});
-  }
+  constructor(injections) {
+    Object.assign(this, {
+      milieu,
+      corpuses,
+      analyzeAll,
+      corpus,
+      taxonomy
+    }, injections);
+  };
   
-  taxonomize(opts) {
-    return twitter.corpus(opts)
-      .then(text => alchemy.fetch({text}))
-      .then(pluckLabels);
-  }
+  taxonomize = (opts) => 
+    this.corpus(opts).then(text => this.taxonomy({text}));
+  
     
-  taxonomizeFriends(opts) {
-    return twitter.milieu(opts)
-        .then(users => all(map(corpusByScreenName, users)))
-        .then(corpuses => all(map(analyzeCorpuses, corpuses)))
+  taxonomizeFriends = opts => {
+    return this.milieu(opts)
+        .then(this.corpuses)
+        .then(this.analyzeAll)
         .then(flatten)
         .then(inverseMap);
-  };
+  }
+
+}
+
+export const inverseMap = (pairs) => {  
+  return reduce(inverseMerge, {}, pairs);
 }
 
 const inverseMerge = (memo, pair) => {
@@ -32,22 +41,3 @@ const inverseMerge = (memo, pair) => {
     [tax]: [...(memo[tax] || []), handle]
   });
 }
-
-export function inverseMap (pairs) {  
-  return reduce(inverseMerge, {}, pairs);
-}
-
-const analyzeCorpuses = (corpus) => {
-  const [handle, text] = flatten(toPairs(corpus))
-  const assignTaxonomyToHandle = taxonomy => ({ [handle]: taxonomy })
-  return alchemy.fetch({text})
-    .then(pluckLabels)
-    .then(map(assignTaxonomyToHandle))
-}
-
-const corpusByScreenName = handle => {
-  const format = doc => ({[handle]: doc})
-  return twitter.corpus({screen_name: handle}).then(format)
-}
-  
-  

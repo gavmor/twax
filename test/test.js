@@ -1,39 +1,35 @@
 import Twax, { inverseMap } from '../src';
 import { stub } from 'sinon';
-import alchemy from '../src/alchemy';
-import twitter from '../src/twitter';
-
+// import alchemy from '../src/alchemy';
+// import twitter from '../src/twitter';
 
 describe('new Twax()', function functionName() {
-  let twax;
+  let twax, corpus, corpuses, analyzeAll, milieu, taxonomy;
   
   beforeEach(function () {
-    const mockCorpus = [ 
-      'foo bar baz'
-    ];  
-    const mockTaxonomy = { 
-      taxonomy: [ { label: 'dragons' }, { label: 'unicorns' } ]
+    const mockMilieu = [ 'luchisimog', 'mrmicrowaveoven' ];
+    const mockCorpus = 'foo bar baz';  
+    
+    corpus = stub().resolves(mockCorpus);
+    corpuses = stub().resolves([{quavmo: mockCorpus}]);
+    milieu = stub().resolves(mockMilieu);
+    taxonomy = stub().resolves([ "dragons", "unicorns" ]);
+    analyzeAll = stub().resolves([
+      { luchisimog: 'dragons' },
+      { mrmicrowaveoven: 'dragons' },
+      { luchisimog: 'unicorns' },
+      { mrmicrowaveoven: 'unicorns' },
+    ]);
+    
+    const constructionParams = {
+      corpus, corpuses, analyzeAll, milieu, taxonomy
     };
     
-    const mockMilieu = [
-      'luchisimog', 'mrmicrowaveoven'
-    ]
-    
-    stub(twitter, 'corpus').resolves(mockCorpus);
-    stub(twitter, 'milieu').resolves(mockMilieu);
-    stub(alchemy, 'fetch').resolves(mockTaxonomy);
-    
-    twax = new Twax();
-  });
-  
-  afterEach(function () {
-    twitter.corpus.restore();
-    twitter.milieu.restore();
-    alchemy.fetch.restore();
+    twax = new Twax(constructionParams);
   });
   
   describe('taxonomizeFriends()', function () {
-    it('works', function () {
+    it('fetches and groups friends by shared taxonomies', function () {
       const friendsByTaxonomy = twax.taxonomizeFriends({
         screen_name: 'quavmo'
       });
@@ -70,8 +66,7 @@ describe('new Twax()', function functionName() {
       expect(inverseMap(pairs)).to.deep.equal({
         dragons: ['luchisimog', "mrmicrowaveoven"],
         unicorns: ['luchisimog', "mrmicrowaveoven"]
-      })
-    })
-    
-  })
+      });
+    });
+  });
 });

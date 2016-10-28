@@ -1,7 +1,7 @@
-import { curry, pluck, join } from 'ramda';
-import { Promise as Blue }  from 'bluebird';
+import { writeFileSync } from 'fs';
+import { curry, pluck, join, map } from 'ramda';
+import Promise, { promisify, all } from 'bluebird';
 import Twit from 'twit';
-
 
 const initTwit = () => new Twit({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
@@ -14,7 +14,7 @@ export function corpus (opts) {
   const t = initTwit();
   const twitterOpts = { ...opts, count: 100, since_id: 1 };
   const curriedGet = curry(t.get)('statuses/user_timeline', twitterOpts)
-  const fetchTweets = Blue.promisify(curriedGet, {context: t});
+  const fetchTweets = promisify(curriedGet, {context: t});
   const spaceJoin = join(' ');
   const amassText = (tweets) => spaceJoin(pluck('text')(tweets));
   
@@ -22,7 +22,16 @@ export function corpus (opts) {
 }
 
 export function milieu (opts) {
-  
+  return new Promise(resolve => resolve(
+    ['quavmo', 'luchisimog', 'mrmicrowaveoven']
+  ));
 }
 
-export default { corpus, milieu }
+export const corpuses = users => all(map(corpusByScreenName, users))
+
+const corpusByScreenName = handle => {
+  const format = doc => ({[handle]: doc})
+  return corpus({screen_name: handle}).then(format)
+}
+
+export default { corpus, milieu, corpuses }
