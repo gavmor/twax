@@ -10,7 +10,7 @@ You'll have to set the follow environment variables on `process.env`:
 ```JavaScript
 import Twax from 'twax';
 twax = new Twax();
-twax.taxonomize({screen_name: 'quavmo'}).then(console.log)
+twax.taxonomize({screen_name: 'MrAgingNova'}).then(console.log)
 ```
 
 Should return:
